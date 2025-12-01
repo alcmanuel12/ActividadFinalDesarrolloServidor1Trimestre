@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Are you sure you want to delete this animatronic?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes</button>
+        <a href="{% url 'freddyapp:list' %}">Cancel</a> </form>
+{% endblock %}

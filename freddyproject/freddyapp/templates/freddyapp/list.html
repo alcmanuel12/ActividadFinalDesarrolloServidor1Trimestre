@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to Freddy Fazbear's Pizza</h1>
+    <h3>These are our animatronics:</h3>
+
+    <ul>
+        {% for animatronic in animatronics %}
+            <li>
+                {{ animatronic.name }} the {{ animatronic.get_animal_display }}
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'freddyapp:view' animatronic.id %}">[View]</a>
+                {% endif %}
+
+                {% if perms.freddyapp.change_animatronic %}
+                    <a href="{% url 'freddyapp:edit' animatronic.id %}">[Edit]</a>
+                {% endif %}
+
+                {% if perms.freddyapp.delete_animatronic %}
+                    <a href="{% url 'freddyapp:delete' animatronic.id %}">[Delete]</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if perms.freddyapp.add_animatronic %}
+        <br>
+        <a href="{% url 'freddyapp:new' %}">New animatronic</a>
+    {% endif %}
+{% endblock %}

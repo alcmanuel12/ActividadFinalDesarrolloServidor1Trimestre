@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Freddy Fazbear's Pizza</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: {% if request.COOKIES.theme == 'dark' %}#333{% else %}#fff{% endif %};
+            color: {% if request.COOKIES.theme == 'dark' %}#fff{% else %}#000{% endif %};
+        }
+        a { color: {% if request.COOKIES.theme == 'dark' %}#81b3ff{% else %}#0000EE{% endif %}; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'freddyapp:theme' %}">[Dark theme]</a>
+        <a href="{% url 'freddyapp:clearcookies' %}">[Light theme]</a>
+
+        {% if user.is_authenticated %}
+            <span>Hi, {{ user.username }}</span>
+            <form action="{% url 'freddyapp:logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'freddyapp:login' %}">Log in</a>
+            <a href="{% url 'freddyapp:register' %}">Register</a>
+        {% endif %}
+    </header>
+    <hr>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

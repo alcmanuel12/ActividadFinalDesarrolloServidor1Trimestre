@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ animatronic.name }}</h1>
+    <p><strong>Animal type:</strong> {{ animatronic.get_animal_display }}</p>
+    <p><strong>Build date:</strong> {{ animatronic.build_date }}</p>
+    <p><strong>Decommissioned:</strong> {{ animatronic.decommissioned }}</p>
+    
+    {% if animatronic.parties.all %}
+        <p><strong>Parties:</strong></p>
+        <ul>
+            {% for party in animatronic.parties.all %}
+                <li>{{ party.name }} ({{ party.attendants }} attendants)</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
