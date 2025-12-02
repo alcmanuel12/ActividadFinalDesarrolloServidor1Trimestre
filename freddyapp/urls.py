@@ -3,6 +3,7 @@ from . import views
 
 app_name = 'freddyapp'
 
+
 # Rutas de la aplicación
 urlpatterns = [
     path('', views.animatronic_list, name='list'),

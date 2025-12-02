@@ -23,3 +23,4 @@ class AnimatronicForm(forms.ModelForm):
                 'required': "The build date is required",
             },
         }
+        
