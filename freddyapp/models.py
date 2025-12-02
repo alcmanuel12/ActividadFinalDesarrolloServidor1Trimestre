@@ -1,5 +1,6 @@
 from django.db import models
 
+# Modelo para fiestas
 class Party(models.Model):
     name = models.CharField(max_length=100)
     attendants = models.IntegerField()
@@ -7,8 +8,9 @@ class Party(models.Model):
     def __str__(self):
         return self.name
 
+# Modelo principal de animatrónicos
 class Animatronic(models.Model):
-
+    # Tipos de animales disponibles
     ANIMAL_CHOICES = [
         ('BE', 'Bear'),
         ('CH', 'Chicken'),

@@ -4,14 +4,13 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import Group
 from django.views.generic import UpdateView, DeleteView
 from .models import Animatronic
 from .forms import AnimatronicForm
 
-
-
+# Gestión de temas
 def set_dark_theme(request):
-
     response = redirect(request.META.get('HTTP_REFERER', 'freddyapp:list'))
     response.set_cookie('theme', 'dark')
     return response
@@ -21,8 +20,7 @@ def clear_theme_cookie(request):
     response.delete_cookie('theme')
     return response
 
-
-
+# Vistas de animatrónicos
 def animatronic_list(request):
     animatronics = Animatronic.objects.all()
     return render(request, 'freddyapp/list.html', {'animatronics': animatronics})
@@ -45,8 +43,7 @@ def animatronic_new(request):
         form = AnimatronicForm()
     return render(request, 'freddyapp/form.html', {'form': form})
 
-
-
+# Vistas basadas en clases
 class AnimatronicUpdate(PermissionRequiredMixin, UpdateView):
     model = Animatronic
     form_class = AnimatronicForm
@@ -63,14 +60,14 @@ class AnimatronicDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'freddyapp.delete_animatronic'
     pk_url_kwarg = 'id'
 
-
+# Autenticación de usuarios
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            from django.contrib.auth.models import Group
-            group = Group.objects.get(name='Client')
+            # Asignar grupo Client al nuevo usuario
+            group, created = Group.objects.get_or_create(name='Client')
             user.groups.add(group)
             return redirect('freddyapp:login')
     else:
@@ -82,5 +79,4 @@ class CustomLoginView(LoginView):
     template_name = 'freddyapp/login.html'
 
 class CustomLogoutView(LogoutView):
-
     next_page = 'freddyapp:list'
