@@ -9,6 +9,7 @@ from django.views.generic import UpdateView, DeleteView
 from .models import Animatronic
 from .forms import AnimatronicForm
 
+
 # Gestión de temas
 def set_dark_theme(request):
     response = redirect(request.META.get('HTTP_REFERER', 'freddyapp:list'))
